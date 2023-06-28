@@ -37,3 +37,60 @@ export const products: TProducts[] = [
     imageUrl: "https://picsum.photos/seed/Monitor/400",
   },
 ];
+
+/* Exercicio 1 - Typescript II */
+
+export function createUser(
+  id: string,
+  name: string,
+  email: string,
+  password: string
+): void {
+  const newUser: TUsers = {
+    id,
+    name,
+    email,
+    password,
+    createdAt: data2.toISOString(),
+  };
+  users.push(newUser);
+  console.log("Cadastro realizado com sucesso!!!!", newUser);
+}
+
+export function getAllUsers(): TUsers[] {
+  return users;
+}
+
+/* Exercicio 2 - Typescript II  */
+
+export function createProduct(
+  id: string,
+  name: string,
+  price: number,
+  description: string,
+  imageUrl: string
+): void {
+  const newProduct: TProducts = {
+    id,
+    name,
+    price,
+    description,
+    imageUrl,
+  };
+  products.push(newProduct);
+  console.log("Produto cadastrado com sucesso!!!!", newProduct);
+}
+
+export function getAllProducts(): TProducts[] {
+  return products;
+}
+
+/* Exercicio 3- Typescript II  */
+
+export const searchProductsByName = (name: string): TProducts[] => {
+  const result = products.filter((product) => {
+    console.log("Produto pesquisado!");
+    return product.name.toLowerCase().includes(name.toLowerCase());
+  });
+  return result;
+};
