@@ -7,16 +7,16 @@ let data2 = new Date(data.valueOf() - data.getTimezoneOffset() * 60000);
 export const users: TUsers[] = [
   {
     id: "u001",
-    name: "Fulano",
-    email: "fulano@email.com",
-    password: "fulano123",
+    name: "Roberto",
+    email: "roberto@email.com",
+    password: "beto123",
     createdAt: data2.toISOString(),
   },
   {
     id: "u002",
-    name: "Beltrana",
-    email: "beltrana@email.com",
-    password: "beltrana00",
+    name: "Lena",
+    email: "lena@email.com",
+    password: "lena100",
     createdAt: data2.toISOString(),
   },
 ];
