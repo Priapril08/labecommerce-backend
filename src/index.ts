@@ -115,3 +115,54 @@ app.post("/products", (req: Request, res: Response) => {
   products.push(newProduct);
   res.status(201).send("Produto cadastrado com sucesso!");
 });
+
+/* Exercicio 1 aprofundamento express - Delete User by id*/
+
+app.delete("/users/:id", (req: Request, res: Response) => {
+  const userIdToDelete = req.params.id;
+
+  const userIndex = users.findIndex((user) => user.id === userIdToDelete);
+  if (userIndex >= 0) {
+    users.splice(userIndex, 1);
+  }
+  res.status(200).send("User deletado com sucesso!!");
+});
+
+/* Exercicio 2 aprofundamento express - Delete Product by id*/
+
+app.delete("/products/:id", (req: Request, res: Response) => {
+  const productIdDelete = req.params.id;
+
+  const productIndex = products.findIndex(
+    (product) => product.id === productIdDelete
+  );
+  if (productIndex >= 0) {
+    products.splice(productIndex, 1);
+  }
+  res.status(200).send("Produto deletado com sucesso!!");
+});
+
+/* Exercicio 3 aprofundamento express - PUT/Edit Product by id*/
+
+app.put("/products/:id", (req: Request, res: Response) => {
+  const idToFindProduct = req.params.id;
+
+  const newId = req.body.id as string | undefined;
+  const newName = req.body.name as string | undefined;
+  const newPrice = req.body.price as number | undefined;
+  const newDescription = req.body.description as string | undefined;
+  const newImageUrl = req.body.imageUrl as string | undefined;
+
+  const product = products.find((product) => product.id === idToFindProduct);
+
+  if (product) {
+    product.id = newId || product.id;
+    product.name = newName || product.name;
+    if (newPrice !== undefined) {
+      product.price = newPrice;
+    }
+    product.description = newDescription || product.description;
+    product.imageUrl = newImageUrl || product.imageUrl;
+  }
+  res.status(200).send({ message: "Produto atualizado com sucesso" });
+});
