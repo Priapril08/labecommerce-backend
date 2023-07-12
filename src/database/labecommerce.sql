@@ -1,4 +1,4 @@
--- Active: 1689009286264@@127.0.0.1@3306
+-- Active: 1689099912502@@127.0.0.1@3306
 
 /*CRIAR tabela para USERS*/
 
@@ -116,7 +116,8 @@ WHERE name LIKE '%gamer%';
 
 -- CRIAR um novo usuário (EXEMPLO)
 INSERT INTO users (id, name, email, password, created_at)
-VALUES('u008', 'Samuel', 'sam@email.com', 'sam8090100', strftime('%Y-%m-%d %H:%M:%S', datetime('now', 'localtime')));
+VALUES('u008', 'Samuel', 'sam@email.com', 'sam8090100', strftime('%Y-%m-%d %H:%M:%S', datetime('now', 'localtime'))),
+('u009', 'Maria Isabel', 'maisabel@email.com', 'isabel808080', strftime('%Y-%m-%d %H:%M:%S', datetime('now', 'localtime')));
 
 
 -- CRIAR um novo produto (EXEMPLO)
@@ -145,6 +146,54 @@ SET name = 'Suporte Ergonômico para descanso dos pés',
 WHERE id = 'prod008';
 
 
+-- RELACOES SQL - I EXERCICIO 1 - criar a tabela de pedidos purchases id, buyer, total_price, created_at, a chave estrangeira (FK) será a coluna buyer e irá referenciar a coluna id da tabela users
+
+CREATE TABLE purchases (
+  id TEXT PRIMARY KEY UNIQUE NOT NULL,
+  buyer TEXT NOT NULL,
+  total_price REAL NOT NULL,
+  created_at TEXT NOT NULL,
+  FOREIGN KEY (buyer) REFERENCES users(id)    
+);
+/* Para VISUALIZAR a estrutura de uma tabela*/
+PRAGMA table_info('purchases');
 
 
+-- RELACOES SQL - I EXERCICIO 2 - popular a tabela purchases(pedidos)
+INSERT INTO purchases (id, buyer, total_price, created_at)
+VALUES ('purc001', 'u001', 2000, strftime('%Y-%m-%d %H:%M:%S', datetime('now', 'localtime'))),
+('purc002', 'u002', 1500, strftime('%Y-%m-%d %H:%M:%S', datetime('now', 'localtime'))),
+('purc003', 'u003', 600, strftime('%Y-%m-%d %H:%M:%S', datetime('now', 'localtime'))),
+('purc004', 'u004', 500, strftime('%Y-%m-%d %H:%M:%S', datetime('now', 'localtime'))),
+('purc005', 'u005', 2000, strftime('%Y-%m-%d %H:%M:%S', datetime('now', 'localtime'))),
+('purc006', 'u006', 350, strftime('%Y-%m-%d %H:%M:%S', datetime('now', 'localtime'))),
+('purc007', 'u007', 1200, strftime('%Y-%m-%d %H:%M:%S', datetime('now', 'localtime'))),
+('purc008', 'u008', 250, strftime('%Y-%m-%d %H:%M:%S', datetime('now', 'localtime'))),
+('purc009', 'u009', 200, strftime('%Y-%m-%d %H:%M:%S', datetime('now', 'localtime')));
 
+-- GET ALL purchases
+SELECT * FROM purchases;
+
+-- RELACOES SQL - I EXERCICIO 2 - simule que o valor do pedido foi alterado para mais ou menos (o id é do purchase)
+UPDATE purchases
+SET total_price = 500
+    
+WHERE id = 'purc008';
+
+
+-- RELACOES SQL - I EXERCICIO 3 pesquisar todas as tabelas (unificadas), depois usar a sequencia da consulta + apelidar o nome
+
+SELECT * FROM users
+INNER JOIN purchases
+ON purchases.buyer = users.id;
+
+SELECT
+  purchases.id AS purchaseId,
+  users.id AS userId,  
+  users.name,
+  users.email,
+  purchases.total_price AS totalPrice,
+  purchases.created_at AS createdAt
+FROM users
+INNER JOIN purchases
+ON users.id = purchases.buyer;
