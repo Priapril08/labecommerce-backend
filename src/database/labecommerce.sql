@@ -183,7 +183,7 @@ VALUES ('purc001', 'u001', 2000, datetime('now', 'localtime')),
 
 
 -- GET ALL purchases
-SELECT * FROM users;
+SELECT * FROM purchases;
 
 -- RELACOES SQL - I EXERCICIO 2 - simule que o valor do pedido foi alterado para mais ou menos (o id é do purchase)
 UPDATE purchases
