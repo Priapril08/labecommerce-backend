@@ -1,8 +1,13 @@
-# Atenção
+Projeto LabEcommerce BackEnd
 
-# Exercício 1
+Conteúdo técnico utilizado para estruturar o Projeto durante as aulas:
 
-## Personalizando o package.json
+- Node e package.json
+- Typescript
+- APIs e Express
+- Fluxo de dados (BackEnd)
+- SQL / Relações SQL
+- Knex
 
 ## Link da documentação de requisições do postman
 

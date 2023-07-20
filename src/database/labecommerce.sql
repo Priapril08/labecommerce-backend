@@ -238,7 +238,8 @@ VALUES
 
 
 -- GET ALL purchases_products
-SELECT * FROM purchases;
+SELECT * FROM purchases_products;
+
 
 -- EXERCICIO 2 - SQL II - Consulta com junção INNER JOIN - mostrar uma query todas as colunas das tabelas relacionadas (purchases_products, purchases e products).
 
