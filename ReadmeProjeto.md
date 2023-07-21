@@ -1,4 +1,4 @@
-Projeto LabEcommerce BackEnd
+Projeto LabEcommerce BackEnd ( BootCamp Labenu)
 
 Conteúdo técnico utilizado para estruturar o Projeto durante as aulas:
 

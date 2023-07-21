@@ -13,13 +13,9 @@ import cors from "cors";
 import { TProducts, TUsers } from "./types";
 import { db } from "./database/knex";
 
-// console.log(users);
-// console.log(products);
-
 /* Exercicio 1 Typescript II  */
 
 createUser("u003", "Priscila", "priscila@email.com", "priscila123");
-// console.table(getAllUsers());
 
 /* Exercicio 2 Typescript II  */
 
@@ -30,8 +26,6 @@ createProduct(
   "Acelere seu sistema com velocidades incríveis de leitura e gravação.",
   "https://picsum.photos/seed/Monitor/400"
 );
-
-// console.table(getAllProducts());
 
 /* Exercicio 3 Typescript II  */
 
@@ -66,14 +60,8 @@ app.get("/ping", async (req: Request, res: Response) => {
   }
 });
 
-/* Exercicio 2 apis express*/
-/* Fluxo dados backEnd 1 - refatorar GET ALL USERS com trycatch*/
-
 app.get("/users", async (_req: Request, res: Response) => {
   try {
-    // const result = await db.raw(`
-    // SELECT * FROM users;
-    // `);
     const result = await db("users");
 
     res.status(200).send(result);
@@ -87,14 +75,8 @@ app.get("/users", async (_req: Request, res: Response) => {
   }
 });
 
-/* Fluxo dados backEnd 1 - refatorar GET ALL PRODUCTS trycatch - query params for recebido, deve possuir pelo menos um caractere, e foi incluído uma msg caso não exista nenhum produto com o caractere informado!*/
-
 app.get("/products", async (_req: Request, res: Response) => {
   try {
-    // const result = await db.raw(`
-    // SELECT * FROM products;
-    // `);
-
     const result = await db("products");
     res.status(200).send(result);
   } catch (error: any) {
@@ -112,22 +94,8 @@ app.get("/products/search", async (req: Request, res: Response) => {
     const name = req.query.name as string;
 
     if (!name || name.length === 0) {
-      //   const result = products.filter((product) =>
-      //     product.name.toLowerCase().includes(name)
-      //   );
-      //   if (result.length === 0) {
-      //     res.status(400).send("Não há nenhum produto com esse caractere!");
-      //   } else {
-      //     res.status(200).send(result);
-      //   }
-      // } else {
       throw new Error("'Name' deve conter pelo menos um caractere!");
     }
-
-    // const result = await db.raw(`
-    //   SELECT * FROM products
-    //   WHERE name LIKE '%${name}%'
-    //   `);
 
     const result = await db("products")
       .select("*")
@@ -147,8 +115,6 @@ app.get("/products/search", async (req: Request, res: Response) => {
   }
 });
 
-/* Exercicio 3 apis express*/
-/*Fluxo dados backEnd 1 - No CREATE USER, não deve ser possível criar mais de uma conta com o mesmo ID e nem mesmo EMAIL*/
 app.post("/users", async (req: Request, res: Response) => {
   try {
     const id = req.body.id as string;
@@ -156,28 +122,7 @@ app.post("/users", async (req: Request, res: Response) => {
     const email = req.body.email as string;
     const password = req.body.password as string;
 
-    /* Ver se ja um ID / email existe para poder bloquear um cadastro repetido*/
-
-    // const checkRegisteredId = users.find((user) => user.id === id);
-    // if (checkRegisteredId) {
-    //   res.status(400).send("'ID'já cadastrado!");
-    // }
-    // const checkRegisteredEmail = users.find((user) => user.email === email);
-    // if (checkRegisteredEmail) {
-    //   res.status(400).send("'Email'já cadastrado!");
-    // }
-
-    // const [checkRegisteredId] = await db.raw(`
-    // SELECT * FROM users
-    // WHERE id ='${id}';
-    // `);
-
     const [checkRegisteredId] = await db("users").select("*").where("id", id);
-
-    // const [checkRegisteredEmail] = await db.raw(`
-    // SELECT * FROM users
-    // WHERE email ='${email}';
-    // `);
 
     const [checkRegisteredEmail] = await db("users")
       .select("*")
@@ -201,18 +146,6 @@ app.post("/users", async (req: Request, res: Response) => {
       created_at: new Date().toLocaleString("pt-br"),
     };
 
-    // await db.raw(`
-    // INSERT INTO users (id, name, email, password, created_at)
-    // VALUES('${id}', '${name}', '${email}', '${password}', '${new Date().toLocaleString(
-    //   "pt-br"
-    // )}');
-    // `);
-
-    // const result = await db.raw(`
-    // SELECT * FROM users
-    // WHERE id = '${id}'
-    // `);
-
     await db.insert(newUser).into("users");
 
     const result = await db("users").select("*").where("id", id);
@@ -232,7 +165,6 @@ app.post("/users", async (req: Request, res: Response) => {
   }
 });
 
-/*Fluxo dados backEnd 1 - No CREATE PRODUCTS, não deve ser possível criar mais de um produto com a mesma ID*/
 app.post("/products", async (req: Request, res: Response) => {
   try {
     const id = req.body.id as string;
@@ -241,17 +173,6 @@ app.post("/products", async (req: Request, res: Response) => {
     const description = req.body.description as string;
     const imageUrl = req.body.image_url as string;
 
-    // const checkRegisteredIProduct = products.find(
-    //   (product) => product.id === id
-    // );
-    // if (checkRegisteredIProduct) {
-    //   res.status(400).send("'ID'já cadastrado em outro produto!");
-    // }
-
-    // const [checkRegisteredIProduct] = await db.raw(`
-    // SELECT * FROM products
-    // WHERE id = '${id}';
-    // `);
     const [checkRegisteredIProduct] = await db
       .select("*")
       .from("products")
@@ -271,15 +192,6 @@ app.post("/products", async (req: Request, res: Response) => {
     };
     products.push(newProduct);
 
-    // await db.raw(`
-    // INSERT INTO products (id, name, price, description, image_url)
-    // VALUES('${id}', '${name}', ${price}, '${description}', '${imageUrl}');
-    // `);
-
-    // const result = await db.raw(`
-    // SELECT * FROM products
-    // WHERE id = '${id}'
-    // `);
     await db
       .insert({
         id,
@@ -307,26 +219,9 @@ app.post("/products", async (req: Request, res: Response) => {
   }
 });
 
-/* Exercicio 1 aprofundamento express - Delete User by id*/
-/*Fluxo dados backEnd 2 - No DELETE USER by ID, validar que o usuário existe antes de deletá-la*/
-
 app.delete("/users/:id", async (req: Request, res: Response) => {
   try {
     const userIdToDelete = req.params.id;
-
-    // const userIndex = users.findIndex((user) => user.id === userIdToDelete);
-    // if (userIndex < 0) {
-    //   res.status(404).send("Usuário não encontrado!");
-    // }
-
-    // if (userIndex >= 0) {
-    //   users.splice(userIndex, 1);
-    // }
-
-    // const [userIndex] = await db.raw(`
-    // SELECT * FROM users
-    // WHERE id = "${userIdToDelete}";
-    // `);
 
     const [userIndex] = await db
       .select("*")
@@ -336,11 +231,6 @@ app.delete("/users/:id", async (req: Request, res: Response) => {
       res.status(404);
       throw new Error("'Id' não encontrado!");
     }
-
-    //   await db.raw(`
-    //   DELETE FROM users
-    //   WHERE id = "${userIdToDelete}";
-    // `);
 
     await db.delete().from("users").where({ id: userIdToDelete });
 
@@ -356,27 +246,9 @@ app.delete("/users/:id", async (req: Request, res: Response) => {
   }
 });
 
-/* Exercicio 2 aprofundamento express - Delete Product by id*/
-/*Fluxo dados backEnd 2 - No DELETE PRODUCT by ID, validar que o producto existe antes de deletá-lo*/
-
 app.delete("/products/:id", async (req: Request, res: Response) => {
   try {
     const productIdDelete = req.params.id;
-
-    // const productIndex = products.findIndex(
-    //   (product) => product.id === productIdDelete
-    // );
-    // if (productIndex < 0) {
-    //   res.status(404).send("Produto não encontrado!");
-    // }
-    // if (productIndex >= 0) {
-    //   products.splice(productIndex, 1);
-    // }
-
-    // const [productIndex] = await db.raw(`
-    // SELECT * FROM products
-    // WHERE id = "${productIdDelete}";
-    // `);
 
     const [productIndex] = await db
       .select("*")
@@ -387,11 +259,6 @@ app.delete("/products/:id", async (req: Request, res: Response) => {
       res.status(404);
       throw new Error("'Id' não encontrado!");
     }
-
-    //   await db.raw(`
-    //   DELETE FROM products
-    //   WHERE id = "${productIdDelete}";
-    // `);
 
     await db.delete().from("products").where({ id: productIdDelete });
 
@@ -406,9 +273,6 @@ app.delete("/products/:id", async (req: Request, res: Response) => {
   }
 });
 
-/* Exercicio 3 aprofundamento express - PUT/Edit Product by id*/
-/*Fluxo dados backEnd 2 - No EDIT PRODUCT by ID, validar produto existe antes de editá-lo E validar dados opcionais do body se eles forem recebidos*/
-
 app.put("/products/:id", async (req: Request, res: Response) => {
   try {
     const idToFindProduct = req.params.id;
@@ -419,46 +283,10 @@ app.put("/products/:id", async (req: Request, res: Response) => {
     const newDescription = req.body.description as string | undefined;
     const newImageUrl = req.body.imageUrl as string | undefined;
 
-    // const productIndex = products.findIndex(
-    //   (product) => product.id === idToFindProduct
-    // );
-    // if (productIndex < 0) {
-    //   res.status(404).send("Produto não encontrado!!");
-    // }
-    // const product = products.find((product) => product.id === idToFindProduct);
-
-    // if (product) {
-    //   product.id = newId || product.id;
-    //   product.name = newName || product.name;
-    //   if (newPrice !== undefined) {
-    //     product.price = newPrice;
-    //   }
-    //   product.description = newDescription || product.description;
-    //   product.imageUrl = newImageUrl || product.imageUrl;
-    // }
-
-    // const [product] = await db.raw(`
-    // SELECT * FROM products
-    // WHERE id = "${idToFindProduct}"
-    // `);
-
     const [product] = await db
       .select("*")
       .from("products")
       .where({ id: idToFindProduct });
-
-    // if (product) {
-    //   await db.raw(`
-    //     UPDATE products
-    //     SET
-    //       id = "${newId || product.id}",
-    //       name = "${newName || product.name}",
-    //       price = "${newPrice || product.price}",
-    //       description = "${newDescription || product.description} ",
-    //       image_url = "${newImageUrl || product.imageUrl}"
-    //     WHERE
-    //       id = "${idToFindProduct}"
-    //   `);
 
     if (product) {
       await db
@@ -473,7 +301,7 @@ app.put("/products/:id", async (req: Request, res: Response) => {
         .where({ id: idToFindProduct });
     } else {
       res.status(404);
-      throw new Error("'id' não encontrada!");
+      throw new Error("'Id' não encontrado!");
     }
     res
       .status(200)
@@ -501,7 +329,6 @@ app.post("/purchases", async (req: Request, res: Response) => {
       res.status(400);
       throw new Error("'Buyer' precisa ser uma string!");
     }
-    // const [purchase] = await db("purchases").where({ id });
 
     const [purchase] = await db.select("*").from("purchases").where({ id });
 
@@ -516,7 +343,7 @@ app.post("/purchases", async (req: Request, res: Response) => {
       const [product] = await db("products").where({ id: prod.id });
       if (!product) {
         res.status(400);
-        throw new Error(`${prod.id} não foi encontrado!`);
+        throw new Error(`Id ${prod.id} não foi encontrado!`);
       }
       resultProducts.push({ ...product, quantity: prod.quantity });
     }
