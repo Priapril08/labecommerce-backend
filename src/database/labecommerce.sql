@@ -10,13 +10,9 @@ CREATE TABLE users (
     created_at TEXT NOT NULL 
 );
 
-/* (BUSCA POR TODOS OS USERS) LEITURA DA TABELA ( O asterisco significa TUDO!!) */
-SELECT * FROM users;
-
 
 /*DELETAR A TABELA - aqui deleta a TABELA TODA */
 DROP TABLE users;
-
 
 /* Para VISUALIZAR a estrutura de uma tabela*/
 PRAGMA table_info('users');
@@ -37,6 +33,9 @@ VALUES
 ('u008', 'Samuel', 'sam@email.com', 'sam108090', strftime('%Y-%m-%d %H:%M:%S', datetime('now', 'localtime'))),
 ('u009', 'Renata', 'renata@email.com', 'rere206070', strftime('%Y-%m-%d %H:%M:%S', datetime('now', 'localtime')));
 
+/* (BUSCA POR TODOS OS USERS) LEITURA DA TABELA ( O asterisco significa TUDO!!) */
+SELECT * FROM users;
+
 
 /*Para EDITAR uma coluna de um ítem na tabela*/
 UPDATE users
@@ -44,11 +43,9 @@ SET email = 'adriano@email.com'
 WHERE id = 'u004';
 
 
-
 /*Para DELETAR atraves do id todas as informaçoes desse id*/
 DELETE FROM users 
 WHERE id = 'u006';
-
 
 
 /*CRIAR TABELA DE PRODUTOS */
@@ -60,9 +57,6 @@ CREATE TABLE products (
     description TEXT NOT NULL,    
     image_url TEXT NOT NULL
 );
-
-/* (BUSCA POR TODOS OS PRODUTOS) LEITURA DA TABELA ( O asterisco significa TUDO!!) */
-SELECT * FROM products;
 
 
 /*DELETAR A TABELA - aqui deleta a TABELA TODA */
@@ -88,57 +82,25 @@ VALUES('prod004','Mesa retangular de madeira, multiuso', 2500, 'Praticidade para
 ('prod007', 'Suporte de cadeira para lombar(importado)', 180.99, 'Almofadada, melhora a postura e alivia dores nas costas!', 'https://picsum.photos/id/1/200/300' ),
 ('prod008', 'Suporte Ergonômico para os pés', 140, 'Ajuda a manter a postura, e alivia dores nas pernas, e nas costas!', 'https://picsum.photos/id/1/200/300' );
 
+
 -- GET ALL products
 SELECT * FROM products;
 
-/*Para EDITAR uma coluna de um ítem na tabela*/
-UPDATE products
-SET price = 150
-WHERE id = 'prod006';
-
-
-
-/*Para DELETAR atraves do id todas as informaçoes desse id*/
-DELETE FROM products 
-WHERE id = 'prod009';
-
-
-/*EXERCICIO 1 - APROFUNDAMENTO SQL*/
-
--- GET ALL USER
-SELECT * FROM users;
-
--- GET ALL PRODUCTS 
-SELECT * FROM products;
 
 -- GET ALL PRODUCTS ( FUNCIONALIDADE 2)
 SELECT * FROM products
 WHERE name LIKE '%gamer%';
 
 
-/*EXERCICIO 2 - APROFUNDAMENTO SQL*/
+/*Para EDITAR uma coluna de um ítem na tabela*/
+UPDATE products
+SET price = 150
+WHERE id = 'prod006';
 
--- CRIAR um novo usuário (EXEMPLO)
-INSERT INTO users (id, name, email, password, created_at)
-VALUES('u008', 'Samuel', 'sam@email.com', 'sam8090100', strftime('%Y-%m-%d %H:%M:%S', datetime('now', 'localtime'))),
-('u009', 'Maria Isabel', 'maisabel@email.com', 'isabel808080', strftime('%Y-%m-%d %H:%M:%S', datetime('now', 'localtime')));
-
-
--- CRIAR um novo produto (EXEMPLO)
-INSERT INTO products (id, name, price, description, image_url)
-VALUES('prod009', 'Massageador para os pés', 250, 'Relaxa enquanto trabalha!', 'https://picsum.photos/seed/Mouse%20gamer/400' );
-
-
-
-/*EXERCICIO 3 - APROFUNDAMENTO SQL*/
-
--- DELETAR usuário por id (EXEMPLO)
-DELETE FROM users 
-WHERE id = 'u004';
-
--- DELETAR produto por id (EXEMPLO)
+/*Para DELETAR atraves do id todas as informaçoes desse id*/
 DELETE FROM products 
-WHERE id = 'prod001';
+WHERE id = 'prod009';
+
 
 -- Para EDITAR produto pelo id 
 -- Faça query EDITAR TODAS AS colunas do ítem
@@ -281,10 +243,4 @@ INNER JOIN users
 ON purchases.buyer = users.id;
 
 
-
--- EXERCICIO 3 - SQL II - Refatore suas tabelas que possuem chave estrangeira para que as colunas sejam atualizadas caso suas referências sejam editadas ou deletadas. Referencie o material assíncrono no notion "Definindo efeito cascata ao criar foreign keys".
--- Essa implementação é essencial para o desenvolvimento dos endpoints de edição e deleção.
-/*OBS: Refatorado o CREATE TABLE purchases na linha 153 e incluido - ON UPDATE CASCADE - ON DELETE CASCADE para que atualize as infos apos alteraçao ou delete  */
-
-/*UPDATE SET WHERE ou DELETE FROM WHERE */
 
